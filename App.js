@@ -11,6 +11,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Profile from './screens/Profile'
 import AddPost from './screens/AddPost';
+import Search from './screens/Search';
 
 const Auth = createStackNavigator();
  const AuthStack =()=> (
@@ -32,6 +33,7 @@ const TabsStack = () => (
             <Tabs.Screen name="Dashboard" component={Dashboard} />
             <Tabs.Screen name="Profile" component={Profile} />
             <Tabs.Screen name="AddPost" component={AddPost} />
+            <Tabs.Screen name="Search" component={Search} />
         </Tabs.Navigator>
 )
 const RootStack = createStackNavigator();
