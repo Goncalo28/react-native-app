@@ -24,12 +24,12 @@ export default class AddPost extends Component {
 
   render() {
     return (
-      <View style={{ padding: 10 }}>
+      <View style={styles.container}>
         <TextInput
           style={{ height: 40 }}
           placeholder="Type here to translate!"
           onChangeText={(text) =>
-            this.setState({ content: text})
+            this.setState({ content: text })
           }
           defaultValue={this.state.content}
         />
@@ -38,3 +38,12 @@ export default class AddPost extends Component {
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  }
+})

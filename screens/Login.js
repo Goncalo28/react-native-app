@@ -30,12 +30,11 @@ export default class LoginScreen extends Component {
 
   submitLogin = () => {
     const authService = new AuthService();
-    console.log(process.env.REACT_APP_SERVER_API)
     authService
       .login(this.state.username, this.state.password)
       .then((res) => {
         let user = res.data;
-          this.storeData(user._id).then(() => {
+        this.storeData(user._id).then(() => {
           this.setState({
             username: "",
             password: "",
@@ -79,11 +78,4 @@ export default class LoginScreen extends Component {
       </View>
     );
   }
-
-  /*   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Login Screen</Text>
-    </View>
-
-  ); */
 }
