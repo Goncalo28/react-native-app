@@ -66,7 +66,7 @@ export default class Chat extends React.Component {
                     }
                     defaultValue={this.state.message}
                 />
-                <Button style={{ width: 250 }} title="Send" onPress={this.onMessageSubmit} />
+                <Button buttonStyle={{ width: 250 }} title="Send" onPress={this.onMessageSubmit} />
             </View>
         )
     }

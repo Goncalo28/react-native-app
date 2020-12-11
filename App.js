@@ -20,10 +20,10 @@ const AuthStack = () => (
   <Auth.Navigator
     initialRouteName="Home"
     screenOptions={{
-      animationEnabled: false
+      animationEnabled: false,
     }}
   >
-    <Auth.Screen name="Home" component={HomeScreen} />
+    <Auth.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
     <Auth.Screen name="Login" component={LoginScreen} />
     <Auth.Screen name="SignUp" component={SignUp} />
   </Auth.Navigator>

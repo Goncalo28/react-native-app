@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   View,
-  SafeAreaView,
   StyleSheet
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -70,7 +69,7 @@ export default class LoginScreen extends Component {
           defaultValue={this.state.password}
         />
         <View>
-          <Button style={styles.button} title="Login" onPress={this.submitLogin} />
+          <Button buttonStyle={styles.button} title="Login" onPress={this.submitLogin} />
         </View>
       </View>
     );
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 80
   },
   button: {
-    width: 255,
+    width: 250,
     marginTop: 50
   },
   input: {

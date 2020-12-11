@@ -117,7 +117,7 @@ export default class SignUp extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 110,
+        marginTop: 60,
         paddingHorizontal: 20
     },
     button: {
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     picker: {
-        marginTop: -30,
-        marginBottom: 20
+        marginTop: -45,
     }
 })

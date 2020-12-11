@@ -13,13 +13,13 @@ export default function HomeScreen({ navigation }) {
           <Button
             title="Login"
             type='solid'
-            style={styles.button}
+            buttonStyle={styles.button}
             onPress={() => navigation.navigate('Login')}
           />
           <Button
             title="Signup"
             type='solid'
-            style={styles.button}
+            buttonStyle={styles.button}
             onPress={() => navigation.navigate('SignUp')}
           />
         </View>

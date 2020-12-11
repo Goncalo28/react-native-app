@@ -202,7 +202,7 @@ export default class Profile extends Component {
                 }
               </ScrollView>
             </View>
-            <Button title="Logout" onPress={this.logoutUser} style={{ paddingTop: 30 }} />
+            <Button title="Logout" onPress={this.logoutUser} buttonStyle={{ marginTop: 30 }} />
           </View>
         </Card>
       </View>
