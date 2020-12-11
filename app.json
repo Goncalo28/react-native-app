@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-app",
-    "slug": "rn-app",
+    "name": "meshsocial",
+    "slug": "meshsocial",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Before running the app open the web app, as it's deployed on heroku and if it's not used after a while the server goes to sleep. \nhttps://meshsocialserver.herokuapp.com/",
+    "githubUrl": "https://github.com/Goncalo28/react-native-app"
   }
 }

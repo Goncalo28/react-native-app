@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from "./screens/Login"
@@ -13,7 +12,8 @@ import Profile from './screens/Profile'
 import AddPost from './screens/AddPost';
 import Search from './screens/Search';
 import Chat from './screens/Chat';
-
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Icon } from 'react-native-elements'
 
 const Auth = createStackNavigator();
 const AuthStack = () => (
@@ -29,14 +29,41 @@ const AuthStack = () => (
   </Auth.Navigator>
 )
 // drawer use only in authenticated screens
-const Tabs = createBottomTabNavigator();
+const Tabs = createMaterialBottomTabNavigator();
 const TabsStack = () => (
-  <Tabs.Navigator initialRouteName="Dashboard">
-    <Tabs.Screen name="Dashboard" component={Dashboard} />
-    <Tabs.Screen name="Profile" component={Profile} />
-    <Tabs.Screen name="AddPost" component={AddPost} />
-    <Tabs.Screen name="Search" component={Search} />
-    <Tabs.Screen name="Chat" component={Chat} />
+  <Tabs.Navigator initialRouteName="Dashboard" barStyle={{ backgroundColor: '#63BCE5', paddingBottom: 20, paddingTop: 10 }}>
+    <Tabs.Screen name="Dashboard" component={Dashboard} options={{
+      tabBarLabel: 'Home',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name='home' color='white' />
+      ),
+      tabBarOptions: { activeTintColor: 'red' },
+
+    }} />
+    <Tabs.Screen name="Profile" component={Profile} options={{
+      tabBarLabel: 'Profile',
+      tabBarIcon: () => (
+        <Icon name='account-box' color='white' />
+      ),
+    }} />
+    <Tabs.Screen name="Post" component={AddPost} options={{
+      tabBarLabel: 'Add Post',
+      tabBarIcon: () => (
+        <Icon name='add-circle-outline' color='white' />
+      ),
+    }} />
+    <Tabs.Screen name="Search" component={Search} options={{
+      tabBarLabel: 'Users',
+      tabBarIcon: () => (
+        <Icon name='search' color='white' />
+      ),
+    }} />
+    <Tabs.Screen name="Chat" component={Chat} options={{
+      tabBarLabel: 'Chat',
+      tabBarIcon: () => (
+        <Icon name='textsms' color='white' />
+      ),
+    }} />
   </Tabs.Navigator>
 )
 const RootStack = createStackNavigator();
@@ -58,7 +85,9 @@ class App extends Component {
     const { loading, hasToken } = this.state;
     console.log(hasToken)
     if (loading) {
-      return <HomeScreen />
+      return (
+        <HomeScreen />
+      )
     }
     else {
       return (

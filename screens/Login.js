@@ -1,18 +1,15 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { Component } from "react";
 import {
   View,
-  TextInput,
-  Text,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  TextInputProps,
-  Button,
-  Alert,
+  SafeAreaView,
+  StyleSheet
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthService from "../utils/auth";
 import { NavigationActions } from "react-navigation";
+import { Button } from 'react-native-elements';
+import { Input } from 'react-native-elements';
+
 
 export default class LoginScreen extends Component {
   state = {
@@ -53,29 +50,45 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <View style={{ padding: 10 }}>
-        <TextInput
-          style={{ height: 40 }}
-          placeholder="Type here to translate!"
+      <View style={styles.container}>
+        <Input
+          style={styles.input}
+          placeholder="Username"
           onChangeText={(text) =>
             this.setState({ username: text, password: this.state.password })
           }
           defaultValue={this.state.username}
         />
 
-        <TextInput
+        <Input
+          style={styles.input}
           secureTextEntry={true}
-          style={{ height: 40 }}
-          placeholder="Type here to translate!"
+          placeholder="Password"
           onChangeText={(text) =>
             this.setState({ password: text, username: this.state.username })
           }
           defaultValue={this.state.password}
         />
         <View>
-          <Button title="Login" onPress={this.submitLogin} />
+          <Button style={styles.button} title="Login" onPress={this.submitLogin} />
         </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 80
+  },
+  button: {
+    width: 255,
+    marginTop: 50
+  },
+  input: {
+    marginBottom: 10,
+  }
+})

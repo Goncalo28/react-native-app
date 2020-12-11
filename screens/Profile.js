@@ -1,9 +1,13 @@
 import { Component } from "react";
 import React from "react";
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import UserService from "../utils/user";
 import ConnectionsService from "../utils/connections";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthService from "../utils/auth"
+import { NavigationActions } from "react-navigation";
+import { Icon, Card, Button } from 'react-native-elements'
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 export default class Profile extends Component {
   state = {
@@ -142,35 +146,65 @@ export default class Profile extends Component {
     });
   };
 
+
+  logoutUser = () => {
+    const authService = new AuthService();
+    authService.logout()
+      .then(() => {
+        AsyncStorage.removeItem('loggedInUser').then((res) => {
+          console.log('inside asyncStorage to remove', res)
+          this.props.navigation.navigate('Auth', {}, NavigationActions.navigate('Home'))
+        })
+      })
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.state.username}</Text>
-        <Text>{this.state.email}</Text>
-        <Text>
-          {this.state.firstName} {this.state.lastName}
-        </Text>
-        <Text>{this.state.bio}</Text>
-        {
-          this.state.pendingConnections.map((connection, index) => {
-            if (connection.from) {
-              return (
-                <View key={{ index }}>
-                  <Text>Sent to: {connection.user}</Text>
-                </View>
-              )
-            } else {
-              return (
-                <View key={{ index }}>
-                  <Text>From: {connection.user}
-                    <Button title="Accept" onPress={() => this.handleAccept(connection.id, connection, index)} />
-                    <Button title="Decline" onPress={() => this.handleDecline(connection.id, index)} />
-                  </Text>
-                </View>
-              )
-            }
-          })
-        }
+        <Card containerStyle={{ padding: 20, height: '60%', width: '80%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+          <View style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <Card.Title style={{ marginBottom: 10 }}>{this.state.username}</Card.Title>
+            <Icon name='account-circle' color='rgb(9, 161, 245)' />
+            <Text style={{ marginTop: 10 }}>Email: {this.state.email}</Text>
+            <Text style={{ marginTop: 10 }}>
+              Name: {this.state.firstName} {this.state.lastName}
+            </Text>
+            <Text style={{ marginTop: 10 }}>
+              I'm an: {this.state.typeOfUser}
+            </Text>
+            <Text style={{ marginTop: 10 }}>About: {this.state.bio}</Text>
+            <View style={{ height: '30%', marginTop: 15 }}>
+              <Text style={{ paddingBottom: 10 }}>Pending requests:</Text>
+              <ScrollView contentContainerStyle={{ marginTop: 10 }}>
+                {
+                  this.state.pendingConnections.map((connection, index) => {
+                    if (connection.from) {
+                      return (
+                        <View key={index}>
+                          <Text>Sent to: {connection.user}</Text>
+                        </View>
+                      )
+                    } else {
+                      return (
+                        <View key={index} style={{ display: 'flex', alignItems: "left", justifyContent: 'center' }}>
+                          <Text>From: {connection.user}
+                            <TouchableOpacity onPress={() => this.handleAccept(connection.id, connection, index)}>
+                              <Icon name='check-circle-outline' color='green' size={25} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.handleDecline(connection.id, index)}>
+                              <Icon name='remove-circle-outline' color='red' size={25} />
+                            </TouchableOpacity>
+                          </Text>
+                        </View>
+                      )
+                    }
+                  })
+                }
+              </ScrollView>
+            </View>
+            <Button title="Logout" onPress={this.logoutUser} style={{ paddingTop: 30 }} />
+          </View>
+        </Card>
       </View>
     );
   }

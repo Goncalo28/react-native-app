@@ -6,17 +6,18 @@ import {
   View,
   Button,
   Alert,
-  TextInput,
   TouchableOpacity,
   Modal,
-  TouchableHighlight
+  ScrollView,
+  SafeAreaView
 } from "react-native";
-import { NavigationActions } from "react-navigation";
-import PostsService from "../utils/posts";
-import AuthService from "../utils/auth";
 import UserService from "../utils/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConnectionsService from '../utils/connections';
+import { ListItem, Input } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
+
+
 export default class SAearch extends Component {
   state = {
     users: [],
@@ -150,7 +151,7 @@ export default class SAearch extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -162,45 +163,56 @@ export default class SAearch extends Component {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>{this.state.userInfo.username}</Text>
+              <Text style={{ fontSize: 16 }}>Email: {this.state.userInfo.email}</Text>
+              <Text style={{ fontSize: 16 }}>Name: {this.state.userInfo.firstName} {this.state.userInfo.lastName}</Text>
+              <Text style={{ fontSize: 16 }}>About: {this.state.userInfo.bio}</Text>
               {
-                this.state.userInfo.status === "connected" ? <Text>You are Connected</Text> :
-                  this.state.userInfo.status === "pending" ? <Text>Pending</Text> :
+                this.state.userInfo.status === "connected" ? <Text style={{ fontSize: 17 }}>Already connected</Text> :
+                  this.state.userInfo.status === "pending" ? <Text style={{ fontSize: 17 }}>Pending</Text> :
                     <Button title="Connect" onPress={this.handleConnection} />
               }
-              <TouchableHighlight
-                style={{ backgroundColor: "#2196F3" }}
+              <Button title='Hide Profile'
+                color='red'
                 onPress={() => {
                   this.setState({ modalVisible: !this.state.modalVisible });
                 }}
-              >
-                <Text style={styles.textStyle}>Hide Profile</Text>
-              </TouchableHighlight>
+              />
+
             </View>
           </View>
         </Modal>
-        <TextInput
-          style={{ height: 40 }}
-          placeholder="Type here to translate!"
+        <Input
+          style={{ height: 50, width: '100%', textAlign: 'center' }}
+          placeholder="Search by username here..."
           onChangeText={(text) => {
             this.handleSearch(text);
           }}
           defaultValue={this.state.search}
         />
-        {
-          this.state.usersCopy.map((user) => {
-            if (user._id.toString() === this.state.loggedInUser.toString()) {
-              return null
-            } else {
-              return (
-                <TouchableOpacity onPress={() => this.goToProfile(user._id)} key={user._id}>
-                  <Text key={user._id}>{user.username}</Text>
-                </TouchableOpacity>
-              );
-            }
+        <ScrollView style={{ width: '100%' }}>
+          {
+            this.state.usersCopy.map((user, index) => {
+              if (user._id.toString() === this.state.loggedInUser.toString()) {
+                return null
+              } else {
+                return (
+                  <TouchableOpacity onPress={() => this.goToProfile(user._id)} key={user._id} style={{ marginBottom: 10 }}>
+                    <ListItem bottomDivider key={index}>
+                      <Icon name='account-circle' color='rgb(9, 161, 245)' />
+                      <ListItem.Content>
+                        <ListItem.Title>{user.username}</ListItem.Title>
+                        <ListItem.Subtitle>{user.typeOfUser}</ListItem.Subtitle>
+                      </ListItem.Content>
+                      <ListItem.Chevron />
+                    </ListItem>
+                  </TouchableOpacity>
+                );
+              }
 
-          })
-        }
-      </View>
+            })
+          }
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -209,21 +221,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginHorizontal: 20
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 10
   },
   modalView: {
     margin: 20,
+    height: '70%',
+    width: '80%',
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
-    shadowColor: "#000",
+    justifyContent: "space-evenly",
     shadowOffset: {
       width: 0,
       height: 2
@@ -231,6 +246,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5
+  },
+  modalText: {
+    fontSize: 25,
+    color: '#4B9FE1',
   }
 
 })

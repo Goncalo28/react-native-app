@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AuthService from '../utils/auth';
 import { NavigationActions } from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Input, Button } from 'react-native-elements';
 
 export default class SignUp extends React.Component {
     state = {
@@ -53,42 +54,42 @@ export default class SignUp extends React.Component {
 
     render() {
         return (
-            <View style={{ padding: 10 }}>
-                <TextInput
-                    style={{ height: 40 }}
+            <View style={styles.container}>
+                <Input
+                    style={styles.input}
                     placeholder="Username"
                     onChangeText={(text) =>
                         this.setState({ username: text })
                     }
                     defaultValue={this.state.username}
                 />
-                <TextInput
+                <Input
+                    style={styles.input}
                     secureTextEntry={true}
-                    style={{ height: 40 }}
                     placeholder="Password"
                     onChangeText={(text) =>
                         this.setState({ password: text })
                     }
                     defaultValue={this.state.password}
                 />
-                <TextInput
-                    style={{ height: 40 }}
+                <Input
+                    style={styles.input}
                     placeholder="Email"
                     onChangeText={(text) =>
                         this.setState({ email: text })
                     }
                     defaultValue={this.state.email}
                 />
-                <TextInput
-                    style={{ height: 40 }}
+                <Input
+                    style={styles.input}
                     placeholder="First Name"
                     onChangeText={(text) =>
                         this.setState({ firstName: text })
                     }
                     defaultValue={this.state.firstName}
                 />
-                <TextInput
-                    style={{ height: 40 }}
+                <Input
+                    style={styles.input}
                     placeholder="Last Name"
                     onChangeText={(text) =>
                         this.setState({ lastName: text })
@@ -96,16 +97,37 @@ export default class SignUp extends React.Component {
                     defaultValue={this.state.lastName}
                 />
                 <Picker
+                    style={styles.picker}
                     selectedValue={this.state.typeOfUser}
-                    style={{ height: 50, width: 100 }}
-                    onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ typeOfUser: itemValue })
+                    onValueChange={(value) =>
+                        this.setState({ typeOfUser: value })
                     }>
                     <Picker.Item label="Investor" value="Investor" />
                     <Picker.Item label="Innovator" value="Innovator" />
                 </Picker>
-                <Button title="Register" onPress={this.handleSubmit} />
+                <View>
+                    <Button title="Register" onPress={this.handleSubmit} />
+                </View>
             </View>
         )
     }
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 110,
+        paddingHorizontal: 20
+    },
+    button: {
+        width: 150,
+    },
+    input: {
+        marginBottom: 5,
+    },
+    picker: {
+        marginTop: -30,
+        marginBottom: 20
+    }
+})

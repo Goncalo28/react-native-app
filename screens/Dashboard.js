@@ -1,12 +1,10 @@
 import { Component } from "react"
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { NavigationActions } from 'react-navigation'
+import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView } from 'react-native';
 import PostsService from "../utils/posts"
-import AuthService from "../utils/auth"
 import UserService from "../utils/user"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-
+import { ListItem, Icon } from 'react-native-elements'
 
 export default class Dashboard extends Component {
   state = {
@@ -75,29 +73,27 @@ export default class Dashboard extends Component {
     this._unsubscribe();
   }
 
-
-  logoutUser = () => {
-    const authService = new AuthService();
-    authService.logout()
-      .then(() => {
-        /*           this.props.setCurrentUser(null);
-         */
-        AsyncStorage.removeItem('loggedInUser').then((res) => {
-          console.log('inside asyncStorage to remove', res)
-          this.props.navigation.navigate('Auth', {}, NavigationActions.navigate('Home'))
-          // this.props.navigation.navigate('Home');
-        })
-      })
-  }
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button title="Logout" onPress={this.logoutUser} />
-        {this.state.posts.map((post) => {
-          return <Text key={post._id}>{post.content}</Text>
-        })}
-
-      </View>
+      <SafeAreaView style={{
+        flex: 1, alignItems: 'center', justifyContent: 'center'
+      }}>
+        <Text style={{ fontSize: 30, marginTop: 10, color: 'rgb(9, 161, 245)' }
+        } > Feed</ Text>
+        <ScrollView style={{ marginVertical: 20, width: '100%', marginHorizontal: 20 }}>
+          {this.state.posts.map((post) => {
+            return (
+              <ListItem bottomDivider key={post._id} style={{ marginBottom: 10 }}>
+                <Icon name='account-circle' color='rgb(9, 161, 245)' />
+                <ListItem.Content>
+                  <Text>From: {post.username}</Text>
+                  <ListItem.Subtitle style={{ fontSize: 15 }}>{post.content}</ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
+            )
+          })}
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
